@@ -41,7 +41,7 @@ Download:String
 
 app.get("/done",async (req,res)=>{
   try {
-    const moviedata= await movie.find();
+    const moviedata= await movie.find({}).sort({'moviename':-1});
             console.log("done");
     res.status(200).json(moviedata);
    

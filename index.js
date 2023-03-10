@@ -64,7 +64,7 @@ app.get("/search",(req,res)=>{
   });
 });
 app.get("/category", (req,res)=>{
- movie.find({tags:tags},(err,docs)=>{
+ movie.find({tags:tags},null,{sort: {"moviename": -1}},(err,docs)=>{
   if(!err){
     res.status(200).json(docs);
   }else{

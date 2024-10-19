@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import path from "path";
 import Cors from "cors";
 import dotenv from "dotenv"
+import fetch from 'node-fetch';
+import cron from 'node-cron';
 const __dirname = path.resolve();
 let mydata;
 let tags;
@@ -37,7 +39,7 @@ Download:String
 
   });
   const movie = mongoose.model("movie",Moviesdetails);
-  app.get("/",(req,res)=>{res.status(200)._write("server home page")})
+  app.get("/",(req,res)=>{res.status(200)._write("server home page")});
 
 app.get("/done",async (req,res)=>{
   try {
@@ -48,6 +50,25 @@ app.get("/done",async (req,res)=>{
 } catch (error) {
     res.status(404).json({ message: error.message });
 }});
+async function keepAlive() {
+  try {
+    const response = await fetch('https://4khdhub.online/');
+    if (response.ok) {
+      console.log('Server is alive:', new Date());
+    } else {
+      console.log('Server returned an error:', response.status, new Date());
+    }
+  } catch (error) {
+    console.error('Error making request:', error, new Date());
+  }
+}
+
+// Schedule the keep-alive function to run every 14 minutes
+cron.schedule('*/14 * * * *', () => {
+  console.log('Running keepAlive task:', new Date());
+  keepAlive();
+});
+keepAlive();
 
 app.get("/compose",(req,res)=>{res.sendFile('public/compose.html' , { root : __dirname})});
 app.get("/sucess",(req,res)=>{

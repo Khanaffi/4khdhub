@@ -39,11 +39,7 @@ Download:String
 
   });
   const movie = mongoose.model("movie",Moviesdetails);
-<<<<<<< HEAD
   app.get("/",(req,res)=>{res.status(200)._write("server home page")});
-=======
-  app.get("/",(req,res)=>{res.redirect("/done")});
->>>>>>> 9988672c6cb19ed8038616113276f18e359bbe43
 
 app.get("/done",async (req,res)=>{
   try {
